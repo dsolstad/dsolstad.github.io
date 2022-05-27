@@ -4,7 +4,7 @@ paginate: 10 # pagination based on number of posts
 paginate_path: "page:num"
 exclude: ["README.md"] # files to exclude
 highlighter: rouge
-markdown: CommonMarkGhPages
+markdown: kramdown
 disqus: Daniel Solstad
 google_analytics: UA-13093339-4
 title: Daniel Solstad
