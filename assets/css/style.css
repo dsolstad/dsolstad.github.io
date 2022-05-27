@@ -28,7 +28,7 @@ body {
 	color: #000;
 }
 
-a:link {
+.article_body a:link {
 	color: #e74c3c;
 }
 
