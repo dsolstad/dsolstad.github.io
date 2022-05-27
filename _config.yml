@@ -5,6 +5,8 @@ paginate_path: "page:num"
 exclude: ["README.md"] # files to exclude
 highlighter: rouge
 markdown: kramdown
+kramdown:
+  input: GFM
 disqus: Daniel Solstad
 google_analytics: UA-13093339-4
 title: Daniel Solstad
