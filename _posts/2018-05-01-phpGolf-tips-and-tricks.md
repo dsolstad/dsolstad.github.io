@@ -6,6 +6,8 @@ tags: [codegolf, php]
 description: A compilation of tips and trick when golfing in PHP.
 ---
 
+![_config.yml]({{ site.baseurl }}/images/phpGolf.jpg)
+
 <a href="https://en.wikipedia.org/wiki/Code_golf">Code golfing</a> is about creating the shortest code, in bytes, to solve a given problem, in a specific language or free of choice. It would be the opposite of <a href="https://xkcd.com/1960/">this</a>. 
 
 Examples of on-going challenges:
@@ -15,6 +17,8 @@ Examples of on-going challenges:
 * <a href="https://code-golf.io">https://code-golf.io</a>
 
 This guide was originally written by JWvdVeer and Wim for phpGolf.org. I have done some editing and fine tuning before releasing it again here. Although this guide is written for PHP version 5.3.3, the same principles still applies today, but does not include things like e.g. short array syntax. This is not an exhausting list of all tricks, but these might be the most important ones. The examples in the guide are not meant as the optimal solution for the given problem, but to show off the trick in question. The code written in the guide expects that error reporting is set to E_ALL & ~E_NOTICE.
+
+I have also added some of the most impressive submissions on phpGolf.org down below to take inspiration from.
 
 ## General Tips
 
@@ -403,3 +407,74 @@ Mind the fact that $int|$nonNumericString==$int==true. Sometimes this might be u
 
 ### Bitwise NOT (~)
 Covered in the *String* section.
+
+## Hall of Fame
+
+Below are two of the most impressive work from the public challenges in my opinion. They were submitted in 2012 by the talented primo, whom had the top score on all challenges. The encoding used to calculate the filesize was ISO-8859-1.
+
+### Cantor's Enumeration
+
+Challenge description: Print out the 100 first numbers in <a href="https://pastebin.com/4nub2H0r">Cantor's Enumeration</a>.
+
+![_config.yml]({{ site.baseurl }}/images/cantor.png)
+
+Leading submission with 57 bytes:
+```php
+<?for($f=µ;$ö++.$µ++-49;--$$f?--$$f:$f^=C)echo"$ö / $µ
+";
+```
+
+Shown in hex:  
+![_config.yml]({{ site.baseurl }}/images/primo-cantor-hex.png)
+
+By comparrison, this was the next shortest submission from the user JWvdVeer with 76 bytes:
+```php
+<?for(;$x++.$y++^49;$b--?${$a%2?x:y}-=2:--${(1&$b=++$a)?y:x})echo"$x / $y
+";
+```
+
+### Pathing
+
+The challenge description were as follows:
+
+* The constant MAP will contain one random map.
+* Your program should output, to standard out, one single number,
+the shortest distance from . to X. (alas, how many moves are the absolute 
+minimum to get from the spot marked with '.' to the spot marked with 'X')
+* Do not include the starting position, but include the end position.
+* The map will always be closed, i.e. they will have a wall that reaches all the way around.
+* The map are of random size, but no map will be greater than 50*50.
+* The map may not always be square, but will always be rectangular.
+* You may only move up, down, left or right. No diagonals.
+
+Example input value (Given in the MAP constant on runtime):
+
+```
+####################################
+####################################
+####################################
+####### ############################
+######  .###########################
+######   ##############X ###########
+#####     ##############  ##########
+##### #  ############  ## ##########
+#####       #######    #   #########
+#######     ##### #      ###########
+########  #####           ##########
+########   #### ####   #############
+########  #  #  ####   #############
+########         ###################
+#########        ###################
+####################################
+```
+
+Example answer: 36
+
+This was the leading submission with only 118 bytes.
+
+```php
+<?for(;^$f=$m[strpos($m=~MAP,Ñ)+$c=~($Ü%2*strpos($m,õ))*~-($Ü&2)+$p=$a[$Ü++/5-3]];)${$$f|$$c?z:$a[]=$c}=$$p+1;echo$z;
+```
+
+And as shown in hex:  
+![_config.yml]({{ site.baseurl }}/images/primo-pathing-hex.png)
