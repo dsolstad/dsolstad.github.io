@@ -1,21 +1,24 @@
 @import url(//fonts.googleapis.com/css?family=Ubuntu:500&subset=latin,latin-ext);
 
-body{
+body {
 	font-size: 18px;
 	color: #2c3e50;
 }
 
+.avatar {
+}
 .sidebar {
 	position: fixed;
 	top: 0px;
 	padding-top: 10%;
+	padding-bottom: 0px;
 	background-color: #2c3e50;
 	color: #fff;
 }
 
 .sidebar-header {
 	text-align: center;
-	margin-bottom: 10px;
+	margin-bottom: 0px;
 }
 .sidebar-header .title{
 	letter-spacing: 3px;
@@ -24,7 +27,7 @@ body{
 
 .sidebar-header .title a{
 	text-decoration: none;
-	color: #fff;
+	color: #000;
 }
 
 
@@ -45,8 +48,11 @@ a.nav-link:hover { color: #777; }
 	margin-bottom: 10px;
 }
 
-#contact-list li .fa,
-article .share .btn {
+#contact-list {
+    margin-bottom: 2%;
+}
+
+#contact-list .fa, article .share .btn {
 	-o-transition:color .2s ease-out, background 1s ease-in;
   -ms-transition:color .2s ease-out, background 1s ease-in;
   -moz-transition:color .2s ease-out, background 1s ease-in;
@@ -54,21 +60,19 @@ article .share .btn {
   transition:color .2s ease-out, background 1s ease-in;
 }
 
-#contact-list li:hover .fa-twitter,
-article .share .twitter:hover {
+#contact-list a:hover .fa-twitter, article .share .twitter:hover {
 	color: #00ACEE;
-	border-color: #00ACEE;
 }
-#contact-list li:hover .fa-linkedin {
+#contact-list a:hover .fa-linkedin {
 	color: #1D87BD;
 }
-#contact-list li:hover .fa-envelope {
+#contact-list a:hover .fa-envelope {
 	color: #E93E30;
 }
-#contact-list li:hover .fa-pinterest {
+#contact-list a:hover .fa-pinterest {
 	color: #CC2127;
 }
-#contact-list li:hover .fa-rss {
+#contact-list a:hover .fa-rss {
 	color: #e74c3c;
 }
 article .share .facebook:hover {
@@ -85,8 +89,8 @@ article .share .gplus:hover {
 }
 
 .page-header {
-	color: #e74c3c;
-	text-shadow: 1px 1px 1px rgba(150, 150, 150, 1);
+	color: #2c3e50;
+	padding: 0 5% 0;
 }
 
 @media only screen and (min-width: 768px) {
@@ -115,7 +119,7 @@ article {
 	padding: 0 5% 0;
 }
 
-article.home div a, article.home a { color: #2c3e50; }
+article.home div a, article.home a { color: #2c3e50; text-decoration: none; }
 article.home div a:hover, article.home a:hover { color: #2c3e50; text-decoration: none; }
 article.article_body div a, article.home a { color: #2c3e50; }
 article.article_body div a:hover, article.home a:hover { color: #2c3e50; text-decoration: none; }
