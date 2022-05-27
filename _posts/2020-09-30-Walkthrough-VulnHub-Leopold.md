@@ -66,11 +66,12 @@ msf5 auxiliary(spoof/nbns/nbns_response) > run
 [*] Auxiliary module running as background job 0.
 
 [*] NBNS Spoofer started. Listening for NBNS requests with REGEX "disneyworld" ...
-msf5 auxiliary(spoof/nbns/nbns_response) > ```
+msf5 auxiliary(spoof/nbns/nbns_response) > 
+```
 
 Soon we will see the following output in Metasploit, meaning that leopold now thinks that the DISNEYWORLD hostname is resolving to our attacking computer.
 
-```
+```bash
 [+] 192.168.0.31     nbns - DISNEYWORLD matches regex, responding with 192.168.0.32```
 
 We will also soon after see some TCP requests to port 80 from leopold to our attacking machine in Wireshark. However, we don't have anything running on port 80. We can fire up a netcat listener to see the request.
