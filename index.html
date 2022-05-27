@@ -24,6 +24,7 @@ tagline:
   </h2>
 
   <div>
+    {% if post.published %}
     {% if post.fullview %}
     {{ post.content }}
     {% else %}
@@ -33,6 +34,7 @@ tagline:
     {{ post.description }}
     {% else %}
     {{ post.excerpt }}
+    {% endif %}
     {% endif %}
     {% endif %}
   </div>
