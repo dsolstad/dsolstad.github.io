@@ -17,7 +17,7 @@ Leopold was the second machine I created for my <a href="https://www.vulnhub.com
 
 After finding the server on the network, we do a port scan to determine the services running:
 
-```
+```bash
 $ nmap -sTV 192.168.0.31 -n -p-
 ---
 PORT    STATE SERVICE     VERSION
