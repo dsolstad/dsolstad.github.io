@@ -32,57 +32,57 @@ Instead of writing 1000 you can write 1e3. 1000000 would be 1e6 etc.
 
 ### Substrings
 Substrings can be accessed like arrays, which means that you can do this:
-```php
+{% highlight php %}
 <?$a="abc";echo$a[1]; # prints "b"
-```
+{% endhighlight %}
 
 instead of this:
-```php
+{% highlight php %}
 <?$a="abc";echo substr($a,1,1); # prints "b"
-```
+{% endhighlight %}
 
 ### String inversion
 Many strings doesn't need to be quoted when notices are turned off (~E_NOTICE), which means that that the following will work, thus saving 2 bytes:
 
-```php
+{% highlight php %}
 <?$a=HELLO;
-```
+{% endhighlight %}
 
 This will however not work:
-```php
+{% highlight php %}
 <?$a=HELLO WORLD;
-```
+{% endhighlight %}
 
 If you have a string with whitespace or characters that needs to be quoted, you can invert the string.
 
 This code prints a newline, using 8 bytes:
-```php
+{% highlight php %}
 <?="\n";
-```
+{% endhighlight %}
 
 This does the same thing using 7 bytes:
-```php
+{% highlight php %}
 <?="
 ";
-```
+{% endhighlight %}
 
 And finally this does also the same, but using 6 bytes:
 
-```php
+{% highlight php %}
 <?=~õ;
-```
+{% endhighlight %}
 
 Regular expressions are a good example of a kind of strings you can save bytes on using this trick.
 
 Instead of doing this:
-```php
+{% highlight php %}
 <?=preg_filter('#(.)\1+#i','$1','Aa striing  wiith soomee reeduundaant chaars');
-```
+{% endhighlight %}
 
 You could save 2 bytes doing this:
-```php
+{% highlight php %}
 <?=preg_filter(~Ü×ÑÖ£ÎÔÜ?,~ÛÎ,'Aa striing  wiith soomee reeduundaant chaars');
-```
+{% endhighlight %}
 
 Make sure to set your text editor to latin1 (ISO-8859-1 or Windows-1252) instead of UTF8 otherwise you will save those inverted bytes as multi-bytes which will do the opposite of what we are trying to do here. 
 
@@ -134,118 +134,118 @@ Example of populating an "array":
 
 ### Braces
 Know where you need brackets and where you don't. If a statement is only one line, you don't need brackets. Compare these two examples that print chars below 1000 that have a "9" in it.
-```php
+{% highlight php %}
 <?for(;++$i<1000;){if(is_int(strpos($i,'9'))){echo$i."\n";}}
-```
+{% endhighlight %}
 
-```php
+{% highlight php %}
 <?for(;++$i<1000;)if(is_int(strpos($i,'9')))echo$i."\n";
-```
+{% endhighlight %}
 
 ### Multiple statements
 
 Often it happens that you have multiple statements inside an if statement:
-```php
+{% highlight php %}
 <?
 if($c%4){
     $q++;
     print$a;
 }
-```
+{% endhighlight %}
 
 You can rewrite this as:
-```php
+{% highlight php %}
 <?if($c%4&&$q++)print$a;
-```
+{% endhighlight %}
 
 Or even better:
 
-```php
+{% highlight php %}
 <?if($c%4)$q+=print$a;
-```
+{% endhighlight %}
 
 Or as optimal as we know it:
 
-```php
+{% highlight php %}
 <?$c%4?$q+=print$a:0;
-```
+{% endhighlight %}
 
 This works because print always returns 1.
 
 ### Loops
 Never use while loops. For loops are always at least as short as a while loop, and most of the time shorter. The following code is a not very optimized version of rot13.
-```php
+{% highlight php %}
 <?$a="input";while($a[$i]){$b=ord($a[$i++]);echo chr(($b>109?-13:13)+$b);}
-```
+{% endhighlight %}
 
-```php
+{% highlight php %}
 <?for($a="input";$a[$i];print chr(($b>109?-13:13)+$b))$b=ord($a[$i++]);
-```
+{% endhighlight %}
 
 Try to use as few control structures as possible. Multiple loops can often be folded into a single loop.
 
 ### Ifs
 Try to avoid the use of the traditional if-structure. Most times the same action can be done by using the ternary operator. The next three code-snippets are exactly the same:
-```php
+{% highlight php %}
 <?if($i==2)++$j;
-```
+{% endhighlight %}
 
-```php
+{% highlight php %}
 <?$i==2?++$j:0; # Saves one byte.
-```
+{% endhighlight %}
 
-```php
+{% highlight php %}
 <?$i-2?:++$j; # Saves another two bytes, available since PHP 5.3
-```
+{% endhighlight %}
 
 The following code prints the values of pow(3,n), n<10, starting with n=0:
 
-```php
+{% highlight php %}
 <?for(;$n++<9;)echo$a=3*$a?:1,"\n";
-```
+{% endhighlight %}
 
 If you do have only an if (and no else), try to negate the condition. Since the middle part of the of ternary operator might be left out.
 
 So:
-```php
+{% highlight php %}
 <?if($a==$b)doSomething();
-```
+{% endhighlight %}
 
 Equals (Since PHP 5.3>):
-```php
+{% highlight php %}
 <?$a!=$b?:doSomething();
-```
+{% endhighlight %}
 
 Even equals:
-```php
+{% highlight php %}
 <?$a!=$b||doSomething();
-```
+{% endhighlight %}
 
 Since the associativity of this operator is left, nested ternary-operators should be preferable done in the true-action, since you otherwise have to use parentheses.
-```php
+{% highlight php %}
 <?$a=2;$b=3;print$a==$b?$a==27?$b!=30?:'This situation will never happen':'':'';
-```
+{% endhighlight %}
 
 Same code, but false-based:
-```php
+{% highlight php %}
 <?$a=2;$b=3;print$a!=$b?:($a!=27?'':$b!=30)?'':'This situation will never happen';
-```
+{% endhighlight %}
 
 Compare the examples below that both print all primes below 1000.
-```php
+{% highlight php %}
 1<?for($a=array(),$b=1;++$b<=1000;){foreach($a as$c)if($b%$c==0)continue 2;$a[]=$b;echo"\n".$b;}
-```
+{% endhighlight %}
 
-```php
+{% highlight php %}
 1<?for($a=array(),$b=1;++$b<=1000;){foreach($a as$c)continue($b%$c?0:2);$a[]=$b;echo"\n".$b;}
-```
+{% endhighlight %}
 
 The whole if-structure can here be replaced with a ternary operator. Also try to avoid the need of keywords like 'break' and 'continue', since they need a lot of bytes, while it even might be done using a variable, that perhaps even might be used for other purposes.
 
 Rewritten without *if* and *continue*, although this is far from the optimal solution:
-```php
+{% highlight php %}
 1<?for($a=array(),$b=1;$d=++$b<=1000;){foreach($a as$c)$b%$c?:$d=0;if($d){$a[]=$b;echo"\n".$b;}}
-```
+{% endhighlight %}
 
 ## Functions
 
@@ -261,13 +261,13 @@ Some built-in functions in PHP should never be used. These are some examples wit
 
 
 In some cases, print might be useful since it can be used as a function while echo can't:
-```php
+{% highlight php %}
 <?for(;++$i<11;){echo str_repeat(' ',10-$i);for($a=0;$a<$i;)echo$a,(++$a-$i?' ':"\n");}
-```
+{% endhighlight %}
 
-```php
+{% highlight php %}
 <?for(;++$i<11;print"\n")for(print str_pad($a=0,11-$i,' ',0);++$a<$i;)echo" $a"; # echo instead of print would give an error
-```
+{% endhighlight %}
 
 * <a href="http://php.net/lcfirst">lcfirst</a> -> `$a|' '` or `$a|~ß`
 * <a href="http://php.net/strtoupper">strtoupper($a)</a> -> if $a is only one char, you can use: `$a&ß` or `$a&'ß'`
@@ -278,32 +278,32 @@ In some cases, print might be useful since it can be used as a function while ec
 
 
 All three examples below shows all unique letters in the string in capitals:
-```php
+{% highlight php %}
 <?$b=array_unique(str_split(strtoupper('This is a string')));sort($b);if($b[0]==' ')unset($b[0]);echo join($b,"\n");
-```
+{% endhighlight %}
 
-```php
+{% highlight php %}
 <?for($a='This is a string';$b=$a[$i++];sort($c))@in_array($b&=ß,$c)?:$b==' '?:$c[]=$b;echo join($c,"\n");
-```
+{% endhighlight %}
 
-```php
+{% highlight php %}
 <?for($a=count_chars(strtoupper('This is a string'),3);$c=$a[$b++];)$c==' '?:$d[]=$c;echo join($d,"\n");
-```
+{% endhighlight %}
 
-```php
+{% highlight php %}
 <?for($a='This is a string';$b=$a[$i++];)$b==' '?:$c[$b&=ß]=$b;sort($c);echo join($c,"\n");
-```
+{% endhighlight %}
 
 * <a href="http://php.net/sizeof">sizeof</a> -> most times unnecessary, if needed use <a href="http://php.net/count">count</a>.
 * <a href="http://php.net/count">count</a> -> most times unnecessary. See examples below:
 
-```php
+{% highlight php %}
 <?for($a=array(5,24,89);$i<count($a);)echo$a[+$i++],"\n";
-```
+{% endhighlight %}
 
-```php
+{% highlight php %}
 <?for($a=array(5,24,89);$b=$a[+$i++];)echo"$b\n";
-```
+{% endhighlight %}
 
 
 * <a href="http://php.net/floor">floor</a> -> Often can done with (int)$a (If you only want to do echo floor($a); you might consider printf('%u',$a);)
@@ -311,13 +311,13 @@ All three examples below shows all unique letters in the string in capitals:
 
 
 Both solutions below are written by JWvdVeer for the <a href="http://stackoverflow.com/questions/3190914/code-golf-pig-latin">PIG-latin golf challenge</a>:
-```php
+{% highlight php %}
 <?foreach(split(~ß,SENTENCE)as$a)echo($b++?~ß:'').(strpos(' aeuio',$a[0])?$a.w:substr($a,1).$a[0]).ay;
-```
+{% endhighlight %}
 
-```php
+{% highlight php %}
 <?=preg_filter('#b(([aioue]w*)|(w)(w*))b#ie','"$2"?"$2way":"$4$3ay"',SENTENCE);
-```
+{% endhighlight %}
 
 The second solution is much shorter than the first. It even can handle strings with punctuation.
 
@@ -328,28 +328,28 @@ The second solution is much shorter than the first. It even can handle strings w
 Know the precedence of operators. A table with information about the precedence can be found at: <a href="http://php.net/manual/language.operators.precedence.php">http://php.net/manual/language.operators.precedence.php</a>. This is important. Because then you know when (not) to put parentheses around your piece of code.
 Try to concatenate operators as often as possible. Set the variables $a, $b, $c to 1, $d to 'None' and $e has to be incremented? Then it should be:
 
-```php
+{% highlight php %}
 <?condition?$e+=$a=$b=$c=1|$d=None:0;
-```
+{% endhighlight %}
 
 Not:
-```php
+{% highlight php %}
 <?if(condition){++$e;$a=$b=$c=1;$d=None;}
-```
+{% endhighlight %}
 
 Or incremented $b with $c, then added to $a, and showing whether $a is odd or even after that increment?
-```php
+{% highlight php %}
 <?echo'$a is ',(1&$a+=$b+=$c)?odd:even;
-```
+{% endhighlight %}
 
 ### Modulo operator (%)
 
 Modulo is a really useful operator for doing actions that only have to be done once in so many times in a loop or with some given condition. The condition to the loop can be a variable you can use for this purpose.
 
 So if something has to be done every each 9th iteration:
-```php
+{% highlight php %}
 <?for(;$i<100;)++$i%9?:doSomething();>
-```
+{% endhighlight %}
 
 It is comparable to the bitwise &-operator in the cases that if a%b is given, b is a power of two. In that case it is exactly the same as a&(b-1). So $a%8 is exactly the same as $a&7. Only the precedence of these two operators is different. So use the right one in your context.
 
@@ -360,19 +360,19 @@ If possible always try to use +=, -=, %=, &=, |=, etc.
 Mind the fact is associativity is right. So first the most right assignment operator in the expression will be executed.
 
 Which makes this:
-```php
+{% highlight php %}
 <?$a+=$b%=2;
-```
+{% endhighlight %}
 
 exactly the same as:
-```php
+{% highlight php %}
 <?$b%=2;$a+=$b;
-```
+{% endhighlight %}
 
 But not the same as:
-```php
+{% highlight php %}
 <?$a+=$b;$b%=2;
-```
+{% endhighlight %}
 
 ## Bitwise
 
@@ -380,21 +380,21 @@ But not the same as:
 Bitwise XOR for integers is a replacement for !=
 
 Numeric example:
-```php
+{% highlight php %}
 <?$i!=7?:print'$i is seven';
-```
+{% endhighlight %}
 
 Equals:
-```php
+{% highlight php %}
 <?$i^7?:print'$i is seven';
-```
+{% endhighlight %}
 
 On strings it might be very useful to determine whether the given character equals a given char. This can be done by XOR the given char to '0', since '0' evaluates false.
 
 Example check whether char equals '_':
-```php
+{% highlight php %}
 <?$c=_;echo'Char is '.($c^o?'not ':'').'an underscore';
-```
+{% endhighlight %}
 This trick only can be used on one char. Since '0' evaluates false, but '00...' evaluates true.
 
 ### Bitwise OR (|)
