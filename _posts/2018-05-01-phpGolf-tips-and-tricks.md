@@ -33,6 +33,7 @@ I have also added some of the most impressive submissions on phpGolf.org down be
 Instead of writing 1000 you can write 1e3. 1000000 would be 1e6 etc.
 
 ## Strings
+A lot of space can be saved when dealing with strings.
 
 ### Substrings
 Substrings can be accessed like arrays, which means that you can do this:
