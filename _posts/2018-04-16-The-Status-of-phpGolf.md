@@ -19,19 +19,19 @@ Challenge description: Print out the 100 first numbers in <a href="https://paste
 ![_config.yml]({{ site.baseurl }}/images/cantor.png)
 
 Leading submission with 57 bytes:
-{% highlight php %}
+```php
 <?for($f=µ;$ö++.$µ++-49;--$$f?--$$f:$f^=C)echo"$ö / $µ
 ";
-{% endhighlight %}
+```
 
 Shown in hex:  
 ![_config.yml]({{ site.baseurl }}/images/primo-cantor-hex.png)
 
 By comparrison, this was the next shortest submission from the user JWvdVeer with 76 bytes:
-{% highlight php %}
+```php
 <?for(;$x++.$y++^49;$b--?${$a%2?x:y}-=2:--${(1&$b=++$a)?y:x})echo"$x / $y
 ";
-{% endhighlight %}
+```
 
 ## Pathing
 
@@ -72,9 +72,9 @@ Example answer: 36
 
 This was the leading submission with only 118 bytes.
 
-{% highlight php %}
+```php
 <?for(;^$f=$m[strpos($m=~MAP,Ñ)+$c=~($Ü%2*strpos($m,õ))*~-($Ü&2)+$p=$a[$Ü++/5-3]];)${$$f|$$c?z:$a[]=$c}=$$p+1;echo$z;
-{% endhighlight %}
+```
 
 And as shown in hex:  
 ![_config.yml]({{ site.baseurl }}/images/primo-pathing-hex.png)
