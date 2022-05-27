@@ -23,13 +23,16 @@ $ nmap -sTV 192.168.0.31 -n -p-
 PORT    STATE SERVICE     VERSION
 139/tcp open  netbios-ssn Samba smbd 3.X - 4.X (workgroup: WORKGROUP)
 445/tcp open  netbios-ssn Samba smbd 3.X - 4.X (workgroup: WORKGROUP)
----```
+---
+```
 
 The smb service doesn't yield anything useful, other than that it's a Linux machine, due to the Samba implementation of SMB. Where do we go from here? Let's fire up Wireshark to see if we can learn anything from there.
 
 After some minutes we can see that there is a NBNS request for DISNEYWORLD made from leopold:
+
+```bash
+192.168.0.31 192.168.0.255 NBNS 92 Name query NB DISNEYWORLD<00>
 ```
-192.168.0.31 192.168.0.255 NBNS 92 Name query NB DISNEYWORLD<00>```
 
 ## Setting up Man-in-the-middle
 
