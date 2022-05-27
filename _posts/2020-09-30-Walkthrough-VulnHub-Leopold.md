@@ -17,14 +17,14 @@ Leopold was the second machine I created for my <a href="https://www.vulnhub.com
 
 After finding the server on the network, we do a port scan to determine the services running:
 
-```bash
+{% highlight shell %}
 $ nmap -sTV 192.168.0.31 -n -p-
 ---
 PORT    STATE SERVICE     VERSION
 139/tcp open  netbios-ssn Samba smbd 3.X - 4.X (workgroup: WORKGROUP)
 445/tcp open  netbios-ssn Samba smbd 3.X - 4.X (workgroup: WORKGROUP)
 ---
-```
+{% endhighlight %}
 
 The smb service doesn't yield anything useful, other than that it's a Linux machine, due to the Samba implementation of SMB. Where do we go from here? Let's fire up Wireshark to see if we can learn anything from there.
 
