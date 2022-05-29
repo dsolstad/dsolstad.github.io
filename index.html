@@ -43,34 +43,32 @@ tagline:
 {% endfor %}
 <hr/>
 
-<ul class="pager"> 
+<div class="pager"> 
 
   {% if paginator.previous_page %}
-  <li class="previous">
+  <span class="previous">
     {% if paginator.previous_page == 1 %}
     <a href="{{ site.BASE_PATH }}/">&larr; Newer</a>
     {% else %}
     <a href="{{ site.BASE_PATH }}/{{ site.paginate_path | replace: ':num', paginator.previous_page }}">&larr; Newer</a>
     {% endif %}
-  </li>
+  </span>
   {% else %}
-  <li class="previous disabled">
+  <span class="previous disabled">
     <a>&larr; Newer</a>
-  </li>
+  </span>
   {% endif %}
   
-  <li>
     <span class="page_number">Page: {{ paginator.page }} of {{ paginator.total_pages }}</span>
-  </li>
 
   {% if paginator.next_page %}
-  <li class="next">
+  <span class="next">
     <a href="{{ site.BASE_PATH }}/{{ site.paginate_path | replace: ':num', paginator.next_page }}">Older &rarr;</a>
-  </li>
+  </span>
   {% else %}
-  <li class="next disabled">
+  <span class="next disabled">
     <a>Older &rarr;</a>        
-  </li>
+  </span>
   {% endif %}
 
-</ul>
+</div>
