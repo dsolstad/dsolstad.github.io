@@ -4,6 +4,7 @@ title: Vulnerable Machines (SP series)
 categories: [vm]
 tags: [vulnhub]
 fullview: false
+published: false
 description: My contribution of vulnerable machines to VulnHub
 comments: true
 ---
