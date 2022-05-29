@@ -2,7 +2,7 @@
  * http://github.com/mojombo/jekyll
  * MIT License
  */
-.highlight { background-color: #ffffcc }
+.highlight { background-color: #edeceb; }
 .highlight .hll { background-color: #ffffcc }
 .highlight .c { color: #408080; font-style: italic } /* Comment */
 .highlight .err { border: 1px solid #FF0000 } /* Error */
