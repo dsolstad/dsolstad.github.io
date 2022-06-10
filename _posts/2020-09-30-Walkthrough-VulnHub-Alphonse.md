@@ -313,7 +313,9 @@ root@kali:~# node mygg.js
 [+] Hooked new browser [192.168.0.36][Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0][http://127.0.0.1/dnanalyzer/portal/index.php]
 ```
 
-Now, change the proxy settings in your attacking web browser to 127.0.0.1:8081 and browse to http://127.0.0.1/dnanalyzer/portal/index.php and you should be logged in! What we see in the admin panel is what appears to be a button to analyse the user provided DNA strings. Hit Ctrl+Shift+I to bring up the Web Developer toolbar to view the request to the API. Instead of using our attacking browser going forward, we can now switch to using curl via mygg.js to play around with the request.
+Now, change the proxy settings in your attacking web browser to 127.0.0.1:8081 and browse to http://127.0.0.1/dnanalyzer/portal/index.php and you should be logged in! What we see in the admin panel is what appears to be a button to analyse the user provided DNA strings. Hit Ctrl+Shift+I to bring up the Web Developer toolbar to view the request to the API. Instead of using our attacking browser going forward, we can now switch to using curl via mygg.js to play around with the request. 
+  
+Note that since the victim is browsing the web portal via the 127.0.0.1 interface, we also need to use localhost to comply with Same Origin Policy and to be able to read the answers from the victim's browsing.
 
 ```
 root@kali:~# curl -i -x 127.0.0.1:8081 -d '{"id":"6","val":"GATC"}' http://127.0.0.1/dnanalyzer/portal/analyze_dna.php
