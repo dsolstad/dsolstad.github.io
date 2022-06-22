@@ -314,8 +314,13 @@ root@kali:~# node mygg.js
 ```
 
 Now, change the proxy settings in your attacking web browser to 127.0.0.1:8081 and browse to http://127.0.0.1/dnanalyzer/portal/index.php and you should be logged in! What we see in the admin panel is what appears to be a button to analyse the user provided DNA strings. Hit Ctrl+Shift+I to bring up the Web Developer toolbar to view the request to the API. Instead of using our attacking browser going forward, we can now switch to using curl via mygg.js to play around with the request. 
-  
+
+![_config.yml]({{ site.baseurl }}/images/alphonse/mygg_portal.png)
+
 Note that since the victim is browsing the web portal via the 127.0.0.1 interface, we also need to use localhost to comply with Same Origin Policy and to be able to read the answers from the victim's browsing.
+
+Also, take note that we see no cookies defined, but we are riding on the victim's cookie.
+![_config.yml]({{ site.baseurl }}/images/alphonse/portal_nocookies.png)
 
 ```
 root@kali:~# curl -i -x 127.0.0.1:8081 -d '{"id":"6","val":"GATC"}' http://127.0.0.1/dnanalyzer/portal/analyze_dna.php
