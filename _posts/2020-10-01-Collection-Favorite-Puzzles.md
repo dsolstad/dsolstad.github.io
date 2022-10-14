@@ -13,7 +13,7 @@ Most of them are probably well known, but I have rewritten them in my own words.
 
 ## Blue Eyes
 
-xkcd.com's infamous Blue Eyes puzzle is hard, mind bending and beautiful. I have written an article about this puzzle before, where I presented my version of the puzzle text, my explanation of the official solution and my alternative solution. Check it out [here](https://dsolstad.com/puzzle/2017/02/24/Riddles-in-the-Dark-Blue-Eyes.html).
+xkcd.com's infamous Blue Eyes puzzle is hard, mind bending and beautiful. I have written an article about this puzzle before, where I presented my version of the puzzle text, my explanation of the official solution and my alternative solution. Check it out [here]([https://dsolstad.com/puzzle/2017/02/24/Riddles-in-the-Dark-Blue-Eyes.html](https://dsolstad.com/puzzle/2017/02/24/Blue-Eyes-Puzzle.html).
 
 ## The King and his Servants
 
