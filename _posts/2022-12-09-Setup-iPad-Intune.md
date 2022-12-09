@@ -7,8 +7,6 @@ tags: [intune, apple]
 description: Fully enroll iPad in Intune to force configurations and push apps 
 ---
 
-# Setup and Manage iPads in Intune
-
 The objective: Enroll iPad in Intune to be able to fully manage it and to force configurations and automatically push apps. 
 
 This guide is created from reading multiple guides and forum posts, with also some assistance from support. And most of all, trying and failing. And since my knowledge about Apple and Intune was non-existent before this journey, it made things harder. Overall, the core of this guide is very loosely based on the following official guide: https://learn.microsoft.com/en-us/mem/intune/enrollment/apple-configurator-enroll-ios
