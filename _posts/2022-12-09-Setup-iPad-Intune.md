@@ -1,6 +1,6 @@
 ---
 layout: post
-published: false
+published: true
 title: Setup and Manage iPads in Intune
 categories: []
 tags: [intune, apple]
