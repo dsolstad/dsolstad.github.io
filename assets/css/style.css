@@ -5,6 +5,9 @@ body {
 	color: #2c3e50;
 }
 
+img {
+        border: 1px solid black;
+
 .sidebar {
 	position: fixed;
 	top: 0px;
