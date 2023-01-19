@@ -106,12 +106,6 @@ In Intune, you will soon see the new device under Enrollment program tokens > In
 
 ![_config.yml]({{ site.baseurl }}/images/intune12.png)
 
-Next, under Enrollment program tokens > Intune > Profiles you will find the profile. Click on it and go to Assign devices. When you click on Add Devices, you will find the new Device. Click add and save.
-
-![_config.yml]({{ site.baseurl }}/images/intune13.png)
-
-Why we need to add the profile with both these methods, I don’t know. It was not possible to enroll the device in Intune without the first method, and the device didn’t show as assigned to a profile without the second.
-
 ## 11. Intune - Verify
 If everything went well, you should now see the device in Intune. Make sure it has a profile assigned and that on ‘Removed from ABM’ says ‘No’. If it doesn’t have a profile assigned, go back to step 9.
 
