@@ -106,7 +106,10 @@ In Intune, you will soon see the new device under Enrollment program tokens > In
 
 ![_config.yml]({{ site.baseurl }}/images/intune12.png)
 
-## 11. Intune - Verify
+## 11. Apple Configurator - Prepare again
+If the iPad is not being enrolled at this stage, you need to prepare the device again, like in step 6. If you do this, then you also need to assign the device again to Intune in ABM, as in step 9.
+
+## 12. Intune - Verify
 If everything went well, you should now see the device in Intune. Make sure it has a profile assigned and that on ‘Removed from ABM’ says ‘No’. If it doesn’t have a profile assigned, go back to step 9.
 
 ![_config.yml]({{ site.baseurl }}/images/intune15.png)
